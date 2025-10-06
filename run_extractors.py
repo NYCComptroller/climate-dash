@@ -9,6 +9,10 @@ def run_all():
 
     PIPELINES = (
         'template_pipeline',
+        'organics_collection_buildings',
+        'energy_star_scores',
+        'diversion_rate',
+        'ghg_emissions'
     )
 
     results = {}
