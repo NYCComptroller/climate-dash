@@ -34,7 +34,7 @@ def run():
 
     # summarize e.g. 
 
-    end_of_last_complete_year = climate_dash_tools.transform.get_last_complete_period_end_date(dataset.metadata, 'YE')
+    last_complete_year = climate_dash_tools.transform.get_last_complete_period_end_date(dataset.metadata, 'YE').year
 
     summary_data = (
         dataset.data
@@ -43,7 +43,7 @@ def run():
         .agg({
             'bike_parking_spaces':'max'
         })
-        .loc[2019:end_of_last_complete_year.year]
+        .loc[2019:last_complete_year]
     )
 
     # VALIDATE
