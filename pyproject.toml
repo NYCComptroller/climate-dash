@@ -1,7 +1,7 @@
 [project]
-name = "climate-dash-flat-structure"
+name = "climate-dash-extract"
 version = "0.1.0"
-description = "Add your description here"
+description = "Extract and transform data for NYC Climate Dashboard"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
