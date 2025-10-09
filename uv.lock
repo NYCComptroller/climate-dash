@@ -54,7 +54,7 @@ wheels = [
 ]
 
 [[package]]
-name = "climate-dash-flat-structure"
+name = "climate-dash-extract"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
