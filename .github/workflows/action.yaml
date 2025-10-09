@@ -2,7 +2,7 @@ name: Extract data
 
 on:
   schedule:
-    - cron: '*30 * * * *' # on :30
+    - cron: '30 * * * *' # on :30
   workflow_dispatch:
 
 jobs:
