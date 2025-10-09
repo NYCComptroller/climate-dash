@@ -26,25 +26,29 @@ def run():
     organics_collection_buildings = climate_dash_tools.extract.from_open_data(
         table_id=table_id,
         query=query,
-        # include_metadata=True
     )
 
     # TRANSFORM
 
     summary_data = (
         organics_collection_buildings
-        .set_index('fiscal_year')
+        .melt(
+            id_vars=['fiscal_year'],
+            var_name='measure',
+            value_name='count'
+        )
+        .set_index(['fiscal_year','measure'])
 
     )
 
     # VALIDATE
 
     if (
-        summary_data.ge(0).all().all()
+        summary_data['count'].ge(0).all()
         and
-        summary_data['total_number_of_schools_receiving_curbside_organics_collection'].max() < 10_000
+        summary_data.loc[:,'total_number_of_schools_receiving_curbside_organics_collection',:].max().lt(10_000).all()
         and
-        summary_data['number_of_1_9_unit_buildings'].max() < 5_000_000
+        summary_data.loc[:,'number_of_1_9_unit_buildings',:].max().lt(5_000_000).all()
     ):
 
         # SAVE
