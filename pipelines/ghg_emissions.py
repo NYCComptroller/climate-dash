@@ -157,7 +157,7 @@ def run():
         # SAVE
 
         data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True)
+        data_dir.mkdir(exist_ok=True, parents=True)
 
         total_by_sector.to_csv(
             data_dir / 'ghg_emissions__total_by_sector.csv'

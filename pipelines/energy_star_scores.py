@@ -97,7 +97,7 @@ def run():
         # SAVE
 
         data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True)
+        data_dir.mkdir(exist_ok=True, parents=True)
 
         deduplicated_buildings_scores_geo.to_file(
             data_dir / 'energy_star_scores__deduplicated_buildings_scores.geojson'

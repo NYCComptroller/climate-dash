@@ -51,7 +51,7 @@ def run():
         # SAVE
 
         data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True)
+        data_dir.mkdir(exist_ok=True, parents=True)
 
         chargers_geo.to_file(
             data_dir / f'{pipeline_name}.geojson'

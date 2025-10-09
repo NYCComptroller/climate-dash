@@ -57,7 +57,7 @@ def run():
         # SAVE
 
         data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True)
+        data_dir.mkdir(exist_ok=True, parents=True)
 
         summary_data.to_csv(
             data_dir / f'{pipeline_name}.csv'
