@@ -3,6 +3,7 @@ from logging.handlers import TimedRotatingFileHandler
 import pathlib
 
 LOG_DIRECTORY = pathlib.Path('Logs')
+LOG_DIRECTORY.mkdir(exist_ok=True)
 
 INFO_DIR = LOG_DIRECTORY / 'Info'
 WARN_DIR = LOG_DIRECTORY /'Warnings'
