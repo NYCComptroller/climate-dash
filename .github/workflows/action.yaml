@@ -34,11 +34,9 @@ jobs:
       - name: Sync dependencies with uv
         run: uv sync --frozen
 
-      - name: Load app token
+      - name: Run extractor script
         env:
           OPEN_DATA_APP_TOKEN: ${{ secrets.OPEN_DATA_APP_TOKEN }}
-
-      - name: Run extractor script
         run: uv run python -m run_extractors
 
       - name: Commit and push data changes
