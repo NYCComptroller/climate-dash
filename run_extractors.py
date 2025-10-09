@@ -8,11 +8,15 @@ logger = climate_dash_tools.logging_config.setup_logging_for_main()
 def run_all():
 
     PIPELINES = (
-        'template_pipeline',
         'organics_collection_buildings',
         'energy_star_scores',
         'diversion_rate',
-        'ghg_emissions'
+        'ghg_emissions',
+        'bicycle_lane_miles',
+        'bike_parking_spaces',
+        'electric_vehicles_registered',
+        'ev_fleet_count',
+        'installed_solar'
     )
 
     results = {}
