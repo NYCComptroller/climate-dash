@@ -15,7 +15,8 @@ def run_all():
         'bike_parking_spaces',
         'electric_vehicles_registered',
         'ev_fleet_count',
-        'installed_solar'
+        'installed_solar',
+        'air_quality'
     )
 
     results = {}
