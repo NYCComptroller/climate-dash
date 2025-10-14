@@ -1,5 +1,7 @@
 def run():
     import pathlib
+
+    import pandas as pd
     
     import climate_dash_tools.extract
     import climate_dash_tools.transform
@@ -95,6 +97,11 @@ def run():
         )
     )
 
+    summary_annual_to_meet_goal = pd.DataFrame(
+        index=[f"{last_complete_year + 1} - 2030"],
+        data={'annual_needed_to_meet_goal':annual_needed_to_meet_goal}
+    )
+
 
     # VALIDATE
 
@@ -118,9 +125,14 @@ def run():
             index=False
         )
 
+        summary_annual_to_meet_goal.to_csv(
+            data_dir / 'solar_annual_to_meet_goal.csv'
+        )
+
         return {
             'summary_installed_mw_by_year':summary_installed_mw_by_year,
-            'summary_installed_remaining':summary_installed_remaining
+            'summary_installed_remaining':summary_installed_remaining,
+            'summary_annual_to_meet_goal':summary_annual_to_meet_goal
         }
 
     else:
