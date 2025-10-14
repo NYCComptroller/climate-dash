@@ -162,7 +162,7 @@ def _request_metadata(
         open_data_collection=open_data_collection
     )
     metadata_request_url = request_urls.get('metadata_request_url')
-    r = requests.get(metadata_request_url, timeout=60)
+    r = requests.get(metadata_request_url, timeout=500)
 
     try:
         r.raise_for_status()
