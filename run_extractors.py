@@ -24,7 +24,7 @@ def run_all():
     for pipeline_name in PIPELINES:
 
         logger.info('▶ starting %s', pipeline_name)
-        pipeline = importlib.import_module('pipelines.' + pipeline_name)
+        pipeline = importlib.import_module('pipelines.extract.' + pipeline_name)
         
         results[pipeline_name] = pipeline.run()
 
