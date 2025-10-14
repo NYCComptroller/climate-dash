@@ -1,5 +1,4 @@
 import importlib
-import logging
 
 import climate_dash_tools.logging_config
 
