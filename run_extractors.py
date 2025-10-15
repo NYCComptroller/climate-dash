@@ -24,9 +24,14 @@ def run_all():
     for pipeline_name in PIPELINES:
 
         logger.info('▶ starting %s', pipeline_name)
-        pipeline = importlib.import_module('pipelines.extract.' + pipeline_name)
+        try:
+            pipeline = importlib.import_module('pipelines.extract.' + pipeline_name)
         
-        results[pipeline_name] = pipeline.run()
+            results[pipeline_name] = pipeline.run()
+        except Exception as e:
+            logger.error('✖ %s failed with error', pipeline_name)
+            logger.info(e)
+            pass
 
 
     return results
