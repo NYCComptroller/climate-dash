@@ -61,11 +61,14 @@ def run():
     pattern = r'(20\d{2})'
     total_by_sector.columns = total_by_sector.columns.str.extract(pattern)[0].astype(int)
 
-    # Reshape to wide
+    # Reshape to tidy
     total_by_sector = (
         total_by_sector
         .rename_axis(columns='year')
         .T
+        .melt(ignore_index=False, value_name='total')
+        .set_index('sector',append=True)
+        .sort_index()
     )
 
     # Buildings
@@ -88,14 +91,11 @@ def run():
 
     buildings_by_sector_by_fuel = climate_dash_tools.extract.from_open_data(table_id,buildings_by_sector_by_fuel_query)
 
-    # Reshape to wide
+    # Reshape to tidy
     buildings_by_sector_by_fuel = (
         buildings_by_sector_by_fuel
-        .pivot_table(
-            values='total',
-            index='category_label',
-            columns='source_group'
-        )
+        .set_index(['category_label','source_group'])
+        .sort_index()
     )
 
     buildings_change_query = f'''
@@ -138,14 +138,13 @@ def run():
     transportation_change = transportation_change.set_index('category_label')
 
     # VALIDATE
-    # TODO
 
     if (
-        total_by_sector['Transportation'].between(5_000_000, 25_000_000).all()
+        total_by_sector.loc[(slice(None),'Transportation'),'total'].between(5_000_000, 25_000_000).all()
         and
-        total_by_sector['Stationary Energy'].between(20_000_000,80_000_000).all()
+        total_by_sector.loc[(slice(None),'Stationary Energy'),'total'].between(20_000_000,80_000_000).all()
         and
-        total_by_sector['Waste'].between(500_000,4_000_000).all()
+        total_by_sector.loc[(slice(None),'Waste'),'total'].between(500_000,4_000_000).all()
         and
         buildings_by_sector_by_fuel.ge(10_000).all().all()
         and
