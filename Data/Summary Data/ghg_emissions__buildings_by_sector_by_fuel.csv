@@ -1,4 +1,13 @@
-category_label,Electricity,Fuel oil,Natural gas,Steam
-Commercial and Institutional,8118653.62,587589.28,4054085.23,327395.4
-Manufacturing and Construction,2950903.23,134606.09,780087.22,98218.62
-Residential,5257590.73,1255100.51,12441837.27,177882.62
+category_label,source_group,total
+Commercial and Institutional,Electricity,8118653.62
+Commercial and Institutional,Fuel oil,587589.28
+Commercial and Institutional,Natural gas,4054085.23
+Commercial and Institutional,Steam,327395.4
+Manufacturing and Construction,Electricity,2950903.23
+Manufacturing and Construction,Fuel oil,134606.09
+Manufacturing and Construction,Natural gas,780087.22
+Manufacturing and Construction,Steam,98218.62
+Residential,Electricity,5257590.73
+Residential,Fuel oil,1255100.51
+Residential,Natural gas,12441837.27
+Residential,Steam,177882.62
