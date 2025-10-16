@@ -84,8 +84,7 @@ def run():
         .loc[
             2017:last_complete_fy
         ]
-        ['diversion_rate']
-        .unstack()
+        [['diversion_rate']]
     )
 
     # VALIDATE
