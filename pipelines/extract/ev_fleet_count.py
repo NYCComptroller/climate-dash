@@ -31,7 +31,10 @@ def run():
 
     # TRANSFORM
 
-    last_complete_year = climate_dash_tools.transform.get_last_complete_period_end_date(electric_vehicles.metadata, 'YE').year
+    last_complete_year = climate_dash_tools.transform.get_last_complete_period_end_date(
+        electric_vehicles.metadata, 
+        'YE-JUN'
+    ).year
 
     summary_data = (
         electric_vehicles.data

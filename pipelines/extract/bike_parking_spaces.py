@@ -31,7 +31,10 @@ def run():
 
     # TRANSFORM
 
-    last_complete_year = climate_dash_tools.transform.get_last_complete_period_end_date(bike_parking_spaces.metadata, 'YE').year
+    last_complete_year = climate_dash_tools.transform.get_last_complete_period_end_date(
+        bike_parking_spaces.metadata, 
+        'YE-JUN'
+    ).year
 
     summary_data = (
         bike_parking_spaces.data
