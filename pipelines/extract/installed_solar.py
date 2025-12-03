@@ -105,40 +105,35 @@ def run():
 
     # VALIDATE
 
-    if (
-        summary_installed_mw_by_year['total_installed_mw'].between(0,500).all()
-        and
-        installed_remaining[['installed','remaining']].iloc[0].between(0,1000).all()
-    ):
+    if not summary_installed_mw_by_year['total_installed_mw'].between(0,500).all():
+        raise ValueError("Data validation failed: Solar installed MW by year out of expected range (0-500)")
+    
+    if not installed_remaining[['installed','remaining']].iloc[0].between(0,1000).all():
+        raise ValueError("Data validation failed: Solar installed/remaining values out of expected range (0-1000)")
 
-        # SAVE
+    # SAVE
 
-        data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True, parents=True)
+    data_dir = pathlib.Path('Data/Summary Data')
+    data_dir.mkdir(exist_ok=True, parents=True)
 
-        summary_installed_mw_by_year.to_csv(
-            data_dir / 'solar_installed_mw_by_year.csv'
-        )
+    summary_installed_mw_by_year.to_csv(
+        data_dir / 'solar_installed_mw_by_year.csv'
+    )
 
-        summary_installed_remaining.to_csv(
-            data_dir / 'solar_installed_remaining.csv',
-            index=False
-        )
+    summary_installed_remaining.to_csv(
+        data_dir / 'solar_installed_remaining.csv',
+        index=False
+    )
 
-        summary_annual_to_meet_goal.to_csv(
-            data_dir / 'solar_annual_to_meet_goal.csv'
-        )
+    summary_annual_to_meet_goal.to_csv(
+        data_dir / 'solar_annual_to_meet_goal.csv'
+    )
 
-        return {
-            'summary_installed_mw_by_year':summary_installed_mw_by_year,
-            'summary_installed_remaining':summary_installed_remaining,
-            'summary_annual_to_meet_goal':summary_annual_to_meet_goal
-        }
-
-    else:
-        logger.error('Incorrect data: %s', summary_installed_mw_by_year.tail(20))
-
-        return None
+    return {
+        'summary_installed_mw_by_year':summary_installed_mw_by_year,
+        'summary_installed_remaining':summary_installed_remaining,
+        'summary_annual_to_meet_goal':summary_annual_to_meet_goal
+    }
 
 if __name__ == "__main__":
     run()

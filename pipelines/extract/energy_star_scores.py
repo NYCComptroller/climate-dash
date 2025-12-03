@@ -88,34 +88,29 @@ def run():
 
     # VALIDATE
 
-    if (
-        count_and_proportion_by_grade['count'].ge(0).all()
-        and
-        count_and_proportion_by_grade['count'].max() < 50_000
-    ):
+    if not count_and_proportion_by_grade['count'].ge(0).all():
+        raise ValueError("Data validation failed: Energy star score counts must be non-negative")
+    
+    if not count_and_proportion_by_grade['count'].max() < 50_000:
+        raise ValueError("Data validation failed: Energy star score counts unexpectedly high")
 
-        # SAVE
+    # SAVE
 
-        data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True, parents=True)
+    data_dir = pathlib.Path('Data/Summary Data')
+    data_dir.mkdir(exist_ok=True, parents=True)
 
-        deduplicated_buildings_scores_geo.to_file(
-            data_dir / 'energy_star_scores__deduplicated_buildings_scores.geojson'
-        )
+    deduplicated_buildings_scores_geo.to_file(
+        data_dir / 'energy_star_scores__deduplicated_buildings_scores.geojson'
+    )
 
-        count_and_proportion_by_grade.to_csv(
-            data_dir / 'energy_star_scores__count_and_proportion_by_grade.csv'
-        )
+    count_and_proportion_by_grade.to_csv(
+        data_dir / 'energy_star_scores__count_and_proportion_by_grade.csv'
+    )
 
-        return {
-            'deduplicated_buildings_scores_geo':deduplicated_buildings_scores_geo,
-            'count_and_proportion_by_grade':count_and_proportion_by_grade
-        }
-
-    else:
-        logger.error('Incorrect data: %s', count_and_proportion_by_grade.tail(20))
-
-        return None
+    return {
+        'deduplicated_buildings_scores_geo':deduplicated_buildings_scores_geo,
+        'count_and_proportion_by_grade':count_and_proportion_by_grade
+    }
 
 if __name__ == "__main__":
     run()

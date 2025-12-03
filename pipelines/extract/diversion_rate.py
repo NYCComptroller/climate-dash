@@ -89,25 +89,19 @@ def run():
 
     # VALIDATE
 
-    if (
-        (summary_data.gt(0) & summary_data.lt(1)).all().all()
-    ):
+    if not (summary_data.gt(0) & summary_data.lt(1)).all().all():
+        raise ValueError("Data validation failed: Diversion rate must be between 0 and 1")
 
-        # SAVE
+    # SAVE
 
-        data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True, parents=True)
+    data_dir = pathlib.Path('Data/Summary Data')
+    data_dir.mkdir(exist_ok=True, parents=True)
 
-        summary_data.to_csv(
-            data_dir / f'{pipeline_name}.csv'
-        )
+    summary_data.to_csv(
+        data_dir / f'{pipeline_name}.csv'
+    )
 
-        return summary_data
-
-    else:
-        logger.error('Incorrect data: %s', summary_data.tail(20))
-
-        return None
+    return summary_data
 
 if __name__ == "__main__":
     run()

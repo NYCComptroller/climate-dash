@@ -125,27 +125,21 @@ def run():
 
         # VALIDATE
 
-        if (
-            data['Value'].between(0,100).all()
-        ):
+        if not data['Value'].between(0,100).all():
+            raise ValueError(f"Data validation failed: {pollutant} values out of expected range (0-100)")
 
-            logger.info('%s data: ok!', pollutant)
+        logger.info('%s data: ok!', pollutant)
 
-            # SAVE
+        # SAVE
 
-            data_dir = pathlib.Path('Data/Summary Data')
-            data_dir.mkdir(exist_ok=True)
+        data_dir = pathlib.Path('Data/Summary Data')
+        data_dir.mkdir(exist_ok=True)
 
-            data.to_csv(
-                data_dir / f'{pollutant}_by_CD.csv'
-            )
+        data.to_csv(
+            data_dir / f'{pollutant}_by_CD.csv'
+        )
 
-            air_pollution_measures[pollutant] = data
-
-        else:
-            logger.error('Incorrect data for %s: %s', pollutant, data.tail(20))
-
-            air_pollution_measures[pollutant] = None
+        air_pollution_measures[pollutant] = data
 
     return air_pollution_measures
 

@@ -139,58 +139,51 @@ def run():
 
     # VALIDATE
 
-    if (
-        total_by_sector.loc[(slice(None),'Transportation'),'total'].between(5_000_000, 25_000_000).all()
-        and
-        total_by_sector.loc[(slice(None),'Stationary Energy'),'total'].between(20_000_000,80_000_000).all()
-        and
-        total_by_sector.loc[(slice(None),'Waste'),'total'].between(500_000,4_000_000).all()
-        and
-        buildings_by_sector_by_fuel.ge(10_000).all().all()
-        and
-        buildings_change['pct_change'].between(-3,3).all()
-        and
-        transportation_change['pct_change'].between(-3,3).all()
-    ):
+    if not total_by_sector.loc[(slice(None),'Transportation'),'total'].between(5_000_000, 25_000_000).all():
+        raise ValueError("Data validation failed: Transportation emissions out of expected range")
+    
+    if not total_by_sector.loc[(slice(None),'Stationary Energy'),'total'].between(20_000_000,80_000_000).all():
+        raise ValueError("Data validation failed: Stationary Energy emissions out of expected range")
+    
+    if not total_by_sector.loc[(slice(None),'Waste'),'total'].between(500_000,4_000_000).all():
+        raise ValueError("Data validation failed: Waste emissions out of expected range")
+    
+    if not buildings_by_sector_by_fuel.ge(10_000).all().all():
+        raise ValueError("Data validation failed: Buildings by sector by fuel values too low")
+    
+    if not buildings_change['pct_change'].between(-3,3).all():
+        raise ValueError("Data validation failed: Buildings change percentage out of expected range")
+    
+    if not transportation_change['pct_change'].between(-3,3).all():
+        raise ValueError("Data validation failed: Transportation change percentage out of expected range")
 
-        # SAVE
+    # SAVE
 
-        data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True, parents=True)
+    data_dir = pathlib.Path('Data/Summary Data')
+    data_dir.mkdir(exist_ok=True, parents=True)
 
-        total_by_sector.to_csv(
-            data_dir / 'ghg_emissions__total_by_sector.csv'
-        )
+    total_by_sector.to_csv(
+        data_dir / 'ghg_emissions__total_by_sector.csv'
+    )
 
-        buildings_by_sector_by_fuel.to_csv(
-            data_dir / 'ghg_emissions__buildings_by_sector_by_fuel.csv'
-        )
+    buildings_by_sector_by_fuel.to_csv(
+        data_dir / 'ghg_emissions__buildings_by_sector_by_fuel.csv'
+    )
 
-        buildings_change.to_csv(
-            data_dir / 'ghg_emissions__buildings_change.csv'
-        )
+    buildings_change.to_csv(
+        data_dir / 'ghg_emissions__buildings_change.csv'
+    )
 
-        transportation_change.to_csv(
-            data_dir / 'ghg_emissions__transportation_change.csv'
-        )
+    transportation_change.to_csv(
+        data_dir / 'ghg_emissions__transportation_change.csv'
+    )
 
-        return {
-            'total_by_sector':total_by_sector,
-            'buildings_by_sector_by_fuel':buildings_by_sector_by_fuel,
-            'buildings_change':buildings_change,
-            'transportation_change':transportation_change
-        }
-
-    else:
-        logger.error(
-            'Incorrect data: %s | %s | %s | %s',
-            total_by_sector,
-            buildings_by_sector_by_fuel,
-            buildings_change,
-            transportation_change
-        )
-
-        return None
+    return {
+        'total_by_sector':total_by_sector,
+        'buildings_by_sector_by_fuel':buildings_by_sector_by_fuel,
+        'buildings_change':buildings_change,
+        'transportation_change':transportation_change
+    }
 
 if __name__ == "__main__":
     run()

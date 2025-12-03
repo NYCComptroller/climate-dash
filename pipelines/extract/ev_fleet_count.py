@@ -48,25 +48,19 @@ def run():
 
     # VALIDATE
 
-    if (
-        summary_data['electric_vehicles'].tail(1).between(0,50_000).all()
-    ):
+    if not summary_data['electric_vehicles'].tail(1).between(0,50_000).all():
+        raise ValueError("Data validation failed: Electric vehicles count out of expected range (0-50,000)")
 
-        # SAVE
+    # SAVE
 
-        data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True, parents=True)
+    data_dir = pathlib.Path('Data/Summary Data')
+    data_dir.mkdir(exist_ok=True, parents=True)
 
-        summary_data.to_csv(
-            data_dir / f'{pipeline_name}.csv'
-        )
+    summary_data.to_csv(
+        data_dir / f'{pipeline_name}.csv'
+    )
 
-        return summary_data
-
-    else:
-        logger.error('Incorrect data: %s', summary_data.tail(20))
-
-        return None
+    return summary_data
 
 if __name__ == "__main__":
     run()

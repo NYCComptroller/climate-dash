@@ -48,25 +48,19 @@ def run():
 
     # VALIDATE
 
-    if (
-        summary_data['bike_parking_spaces'].tail(1).between(0,20_000).all()
-    ):
+    if not summary_data['bike_parking_spaces'].tail(1).between(0,20_000).all():
+        raise ValueError("Data validation failed: Bike parking spaces out of expected range (0-20,000)")
 
-        # SAVE
+    # SAVE
 
-        data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True, parents=True)
+    data_dir = pathlib.Path('Data/Summary Data')
+    data_dir.mkdir(exist_ok=True, parents=True)
 
-        summary_data.to_csv(
-            data_dir / f'{pipeline_name}.csv'
-        )
+    summary_data.to_csv(
+        data_dir / f'{pipeline_name}.csv'
+    )
 
-        return summary_data
-
-    else:
-        logger.error('Incorrect data: %s', summary_data.tail(20))
-
-        return None
+    return summary_data
 
 if __name__ == "__main__":
     run()

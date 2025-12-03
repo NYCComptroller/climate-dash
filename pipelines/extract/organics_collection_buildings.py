@@ -43,29 +43,25 @@ def run():
 
     # VALIDATE
 
-    if (
-        summary_data['count'].ge(0).all()
-        and
-        summary_data.loc[:,'total_number_of_schools_receiving_curbside_organics_collection',:].max().lt(10_000).all()
-        and
-        summary_data.loc[:,'number_of_1_9_unit_buildings',:].max().lt(5_000_000).all()
-    ):
+    if not summary_data['count'].ge(0).all():
+        raise ValueError("Data validation failed: All counts must be non-negative")
+    
+    if not summary_data.loc[:,'total_number_of_schools_receiving_curbside_organics_collection',:].max().lt(10_000).all():
+        raise ValueError("Data validation failed: Schools count unexpectedly high")
+    
+    if not summary_data.loc[:,'number_of_1_9_unit_buildings',:].max().lt(5_000_000).all():
+        raise ValueError("Data validation failed: Buildings count unexpectedly high")
 
-        # SAVE
+    # SAVE
 
-        data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True, parents=True)
+    data_dir = pathlib.Path('Data/Summary Data')
+    data_dir.mkdir(exist_ok=True, parents=True)
 
-        summary_data.to_csv(
-            data_dir / f'{pipeline_name}.csv',
-        )
+    summary_data.to_csv(
+        data_dir / f'{pipeline_name}.csv',
+    )
 
-        return summary_data
-
-    else:
-        logger.error('Incorrect data: %s', summary_data.tail(20))
-
-        return None
+    return summary_data
 
 if __name__ == "__main__":
     run()
