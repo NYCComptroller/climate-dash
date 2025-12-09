@@ -44,25 +44,21 @@ def run():
 
     # VALIDATE
 
-    if (
+    if not (
         chargers_geo.shape[0] > 0
     ):
+        raise ValueError("Data validation failed: No rows of data")
 
-        # SAVE
+    # SAVE
 
-        data_dir = pathlib.Path('Data/Summary Data')
-        data_dir.mkdir(exist_ok=True, parents=True)
+    data_dir = pathlib.Path('Data/Summary Data')
+    data_dir.mkdir(exist_ok=True, parents=True)
 
-        chargers_geo.to_file(
-            data_dir / f'{pipeline_name}.geojson'
-        )
+    chargers_geo.to_file(
+        data_dir / f'{pipeline_name}.geojson'
+    )
 
-        return chargers_geo
-
-    else:
-        logger.error('Incorrect data: %s', chargers_geo.tail(20))
-
-        return None
+    return chargers_geo
 
 if __name__ == "__main__":
     run()
