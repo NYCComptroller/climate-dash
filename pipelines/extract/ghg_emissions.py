@@ -135,7 +135,7 @@ def run():
 
     transportation_change = climate_dash_tools.extract.from_open_data(table_id,transportation_change_query)
 
-    transportation_change = transportation_change.set_index('category_label')
+    transportation_change = transportation_change.set_index('category_label').sort_index()
 
     # VALIDATE
 
