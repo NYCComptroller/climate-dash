@@ -2,7 +2,7 @@ name: Extract data
 
 on:
   schedule:
-    - cron: '30 * * * *' # on :30
+    - cron: '00 6 * * 1,3,5' # M,W,F at 1:00AM local time
   workflow_dispatch:
 
 jobs:
