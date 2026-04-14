@@ -26,24 +26,17 @@ def run():
     electric_vehicles = climate_dash_tools.extract.from_open_data(
         table_id=table_id,
         query=query,
-        include_metadata=True
     )
 
     # TRANSFORM
 
-    last_complete_year = climate_dash_tools.transform.get_last_complete_period_end_date(
-        electric_vehicles.metadata, 
-        'YE-JUN'
-    ).year
-
     summary_data = (
-        electric_vehicles.data
+        electric_vehicles
         .apply(pd.to_numeric, errors='coerce')
         .groupby('fiscalyear')
         .agg({
             'electric_vehicles':'max'
         })
-        .loc[:last_complete_year]
     )
 
     # VALIDATE
